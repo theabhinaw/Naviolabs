@@ -38,48 +38,63 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await fetch(`${API_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (data.success) {
-      localStorage.setItem('token', data.token);
-      setUser(data);
-      return { success: true };
+    try {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        setUser(data);
+        return { success: true };
+      }
+      return { success: false, message: data.message || 'Login failed.' };
+    } catch (err) {
+      console.error('Login error:', err);
+      return { success: false, message: 'Network error. Cannot reach server.' };
     }
-    return { success: false, message: data.message };
   };
 
   const register = async (name, email, password, role = 'user') => {
-    const res = await fetch(`${API_URL}/api/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password, role })
-    });
-    const data = await res.json();
-    if (data.success) {
-      localStorage.setItem('token', data.token);
-      setUser(data);
-      return { success: true };
+    try {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password, role })
+      });
+      const data = await res.json();
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        setUser(data);
+        return { success: true };
+      }
+      return { success: false, message: data.message || 'Registration failed.' };
+    } catch (err) {
+      console.error('Register error:', err);
+      return { success: false, message: 'Network error. Cannot reach server.' };
     }
-    return { success: false, message: data.message };
   };
 
   const googleLogin = async (credential, role = 'user') => {
-    const res = await fetch(`${API_URL}/api/auth/google`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ credential, role })
-    });
-    const data = await res.json();
-    if (data.success) {
-      localStorage.setItem('token', data.token);
-      setUser(data);
-      return { success: true };
+    try {
+      const res = await fetch(`${API_URL}/api/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ credential, role })
+      });
+      const data = await res.json();
+      if (data.success) {
+        localStorage.setItem('token', data.token);
+        setUser(data);
+        return { success: true };
+      }
+      return { success: false, message: data.message || 'Google login failed.' };
+    } catch (err) {
+      console.error('Google login error:', err);
+      return { success: false, message: 'Network error. Cannot reach server.' };
     }
-    return { success: false, message: data.message };
   };
 
   const logout = () => {

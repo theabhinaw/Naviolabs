@@ -47,9 +47,32 @@ export default function Register() {
   };
 
   return (
-    <section className="auth-page" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '100px' }}>
-      <div className="wrap" style={{ maxWidth: '400px' }}>
-        <h1 style={{ textAlign: 'center', marginBottom: '2rem' }}>Create Account</h1>
+    <section className="auth-page" style={{ 
+      minHeight: '100vh', 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      paddingTop: '80px',
+      background: 'radial-gradient(circle at top right, var(--soft) 0%, var(--bg) 100%)',
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
+      {/* Decorative background blobs */}
+      <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '40vw', height: '40vw', background: 'var(--teal)', opacity: '0.05', filter: 'blur(80px)', borderRadius: '50%', pointerEvents: 'none' }}></div>
+      <div style={{ position: 'absolute', bottom: '-10%', left: '-10%', width: '40vw', height: '40vw', background: 'var(--amber)', opacity: '0.05', filter: 'blur(80px)', borderRadius: '50%', pointerEvents: 'none' }}></div>
+      
+      <div className="wrap" style={{ 
+        maxWidth: '420px', 
+        width: '100%', 
+        position: 'relative', 
+        zIndex: 1,
+        background: 'color-mix(in srgb, var(--bg) 95%, transparent)',
+        padding: '2.5rem',
+        borderRadius: '24px',
+        border: '1px solid var(--rule)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.08)'
+      }}>
+        <h1 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '2rem' }}>Create Account</h1>
         
         <form className="form" onSubmit={handleSubmit}>
           {error && <div className="form-alert">{error}</div>}
