@@ -1,0 +1,59 @@
+/* ---------- Design tokens ---------- */
+:root{
+  --bg:#F3F6FB;
+  --surface:#FFFFFF;
+  --soft:#E6ECF7;
+  --ink:#0C1B3F;
+  --ink-2:#3A4968;
+  --ink-3:#5B6886;
+  --rule:#C9D3E6;
+  --rule-strong:#8194BA;
+  --cobalt:#2B4CFF;
+  --teal:#0E9F92;
+  --coral:#EE4459;
+  --amber:#E39A00;
+  --accent:#2B4CFF;
+  --accent-hover:#1F3BE0;
+  --accent-text:#2140F0;
+  --on-accent:#FFFFFF;
+  --panel:#0C1B3F;
+  --on-panel:#EAF0FF;
+  --on-panel-2:#B9C5E2;
+  --grid:rgba(12,27,63,.06);
+  --focus:#2B4CFF;
+  --f-heading:"Playfair Display", Georgia, "Times New Roman", serif;
+  --f-display:"Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --f-text:"Poppins", "Helvetica Neue", Arial, sans-serif;
+  --f-accent:"Caveat", cursive;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1226;--surface:#111D3B;--soft:#0D1830;--ink:#EAF0FF;--ink-2:#B9C5E2;--ink-3:#8E9DC0;
+    --rule:#22335A;--rule-strong:#5A70A3;--cobalt:#7089FF;--teal:#2CC9B8;--coral:#FF6B7F;--amber:#FFB930;
+    --accent:#7089FF;--accent-hover:#8CA0FF;--accent-text:#9DB0FF;--on-accent:#0A1226;
+    --panel:#16244A;--on-panel:#EAF0FF;--on-panel-2:#B9C5E2;--grid:rgba(160,185,255,.07);--focus:#9DB0FF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1226;--surface:#111D3B;--soft:#0D1830;--ink:#EAF0FF;--ink-2:#B9C5E2;--ink-3:#8E9DC0;
+  --rule:#22335A;--rule-strong:#5A70A3;--cobalt:#7089FF;--teal:#2CC9B8;--coral:#FF6B7F;--amber:#FFB930;
+  --accent:#7089FF;--accent-hover:#8CA0FF;--accent-text:#9DB0FF;--on-accent:#0A1226;
+  --panel:#16244A;--on-panel:#EAF0FF;--on-panel-2:#B9C5E2;--grid:rgba(160,185,255,.07);--focus:#9DB0FF;
+  color-scheme:dark;
+}
+
+/* ---------- Extra tokens used by the playground, simulator and form ---------- */
+:root{
+  --accent-soft:#E3E9FF;
+  --danger:#B4233A;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+:root[data-theme="dark"]{--accent-soft:#1B2A57;--danger:#FF8A99}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--accent-soft:#1B2A57;--danger:#FF8A99}
+}

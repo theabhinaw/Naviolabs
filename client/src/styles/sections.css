@@ -1,0 +1,8 @@
+/* ---------- Sections ---------- */
+.section{padding:clamp(4rem,9vw,7.5rem) 0}
+.section-soft{background:var(--soft)}
+.section-head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:1.5rem 4rem;align-items:end;margin-bottom:clamp(2rem,5vw,3.5rem)}
+.section-head h2{font-size:clamp(2rem,3.4vw + .9rem,3.5rem);font-weight:800;line-height:1.02;letter-spacing:-.03em}
+.section-head p{color:var(--ink-2);font-size:1.15rem;max-width:34rem}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

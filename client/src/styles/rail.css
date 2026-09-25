@@ -1,0 +1,14 @@
+/* ---------- Page rail (desktop) ---------- */
+.rail{display:none}
+@media (min-width:1180px){
+  .rail{display:block;position:fixed;left:14px;top:50%;transform:translateY(-50%);width:28px;height:min(56vh,440px);z-index:40}
+  .rail-track{position:absolute;left:50%;top:0;bottom:0;width:6px;margin-left:-3px;border-radius:3px;background:var(--rule)}
+  .rail-fill{position:absolute;left:0;top:0;width:100%;height:0;border-radius:3px;background:var(--cobalt);transition:height .15s linear}
+  .rail ul{list-style:none}
+  .rail li{position:absolute;left:50%;top:var(--at);transform:translate(-50%,-50%)}
+  .rail a{position:relative;display:block;width:18px;height:18px;border-radius:50%;border:4px solid var(--rule-strong);background:var(--bg);transition:transform .2s,border-color .2s,background-color .2s}
+  .rail a.passed{border-color:var(--cobalt)}
+  .rail a[aria-current]{background:var(--cobalt);transform:scale(1.2)}
+  .rail .tip{position:absolute;left:calc(100% + 10px);top:50%;transform:translateY(-50%);padding:.3rem .65rem;border-radius:8px;background:var(--ink);color:var(--bg);font-family:var(--f-display);font-weight:700;font-size:.85rem;line-height:1.2;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
+  .rail a:hover .tip,.rail a:focus-visible .tip{opacity:1}
+}

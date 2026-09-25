@@ -1,0 +1,11 @@
+/* ---------- Footer ---------- */
+.site-footer{--logo-bg:var(--panel);padding:3rem 0 2.5rem;border-top:1px solid rgba(234,240,255,.16);background:var(--panel);color:var(--on-panel-2)}
+.site-footer :focus-visible{outline-color:#9DB0FF}
+.footer-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:2rem clamp(2rem,5vw,4rem)}
+.site-footer .brand{color:var(--on-panel)}
+.footer-about p{max-width:24rem;margin-top:1rem;color:var(--on-panel-2)}
+.site-footer .footer-title{margin-bottom:.9rem;font-size:1rem;font-weight:700;letter-spacing:0;color:var(--on-panel)}
+.footer-links{list-style:none;display:grid;gap:.6rem}
+.footer-links a{font-family:var(--f-display);font-weight:600;font-size:.98rem;color:var(--on-panel-2);text-decoration:none;overflow-wrap:anywhere}
+.footer-links a:hover{color:var(--on-panel);text-decoration:underline}
+.footer-copy{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(234,240,255,.16);font-size:.95rem}

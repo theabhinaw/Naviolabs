@@ -1,0 +1,59 @@
+/* Responsive rules. This file loads last, so it can override the files before it. */
+
+@media (max-width:1020px){
+  /* the top links move into the slide-out menu */
+  .site-nav{display:none}
+  .menu-toggle{display:inline-grid}
+  .bar-actions{margin-left:auto}
+  .line-row{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}
+  .line-row .outcomes{grid-column:2}
+  .pg-grid{grid-template-columns:minmax(0,1fr)}
+}
+@media (min-width:1021px){
+  .drawer{display:none}
+}
+@media (max-width:899px){
+  .hero-grid,.section-head,.process-grid,.calc,.contact-grid,.sim{grid-template-columns:minmax(0,1fr)}
+  .process-intro{position:static}
+  .section-head{align-items:start}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .usecase{grid-template-columns:minmax(0,1fr)}
+  .footer-grid{grid-template-columns:minmax(0,1fr)}
+  .phone{width:100%;max-width:430px;margin-inline:auto}
+}
+@media (max-width:799px){
+  /* the hero workflow becomes a vertical route */
+  .stops{grid-template-columns:minmax(0,1fr)}
+  .stop{display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:1.1rem;padding-bottom:var(--gap)}
+  .stop:last-child{padding-bottom:0}
+  .mark{height:auto}
+  .seg{left:13px;top:17px;width:8px;height:calc(100% + var(--gap))}
+  .seg::before{transform:scaleY(0);transform-origin:center top}
+  .stop.done .seg::before{transform:scaleY(1)}
+  .stop-body{padding:.3rem 0 0}
+  .route-bar{margin-bottom:1.75rem}
+  .play{margin-left:0}
+}
+@media (max-width:719px){
+  .line-row{grid-template-columns:minmax(0,1fr)}
+  .line-row .outcomes{grid-column:auto}
+  .team-grid{grid-template-columns:minmax(0,1fr)}
+  .team-grid::before{display:none}
+  .row2{grid-template-columns:minmax(0,1fr)}
+  .wa-fab{padding:.9rem}
+  .wa-fab .wa-label{display:none}
+}
+@media (max-width:560px){
+  .bar-actions .bar-cta{display:none}
+  .faq-q{font-size:1.08rem}
+  .stats{gap:1.25rem}
+  .pg-file{font-size:.8rem}
+  /* the editor bar wraps: file name on top, buttons below */
+  .pg-bar{flex-wrap:wrap}
+  .pg-actions{width:100%}
+  .pg-actions .pg-btn{flex:1;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
