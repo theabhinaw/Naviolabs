@@ -4,6 +4,9 @@ import App from './App.jsx';
 
 import './styles/tokens.css';
 import './styles/base.css';
+import './styles/loading.css';
+import './styles/scroll-reveal.css';
+import './styles/marquee.css';
 import './styles/header.css';
 import './styles/hero.css';
 import './styles/workflow.css';

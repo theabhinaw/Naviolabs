@@ -6,6 +6,7 @@ import Header from './components/layout/Header.jsx';
 import Footer from './components/layout/Footer.jsx';
 import ScrollRail from './components/layout/ScrollRail.jsx';
 import WhatsAppFab from './components/layout/WhatsAppFab.jsx';
+import LoadingScreen from './components/layout/LoadingScreen.jsx';
 
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
@@ -15,6 +16,7 @@ import Dashboard from './pages/Dashboard.jsx';
 export default function App() {
   const { theme, toggleTheme } = useTheme();
   const [prefill, setPrefill] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   const handleGetRealNumber = useCallback((values) => {
     setPrefill({ values, stamp: Date.now() });
@@ -27,6 +29,7 @@ export default function App() {
 
   return (
     <>
+      {!loaded && <LoadingScreen onComplete={() => setLoaded(true)} />}
       <a className="skip" href="#main">
         Skip to content
       </a>

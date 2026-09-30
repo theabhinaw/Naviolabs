@@ -35,6 +35,11 @@ export default function Hero() {
         </ul>
 
         <WorkflowVisualizer />
+
+        {/* Scroll to explore indicator */}
+        <div className="scroll-indicator" aria-hidden="true">
+          <span className="scroll-indicator-text">↓ SCROLL TO EXPLORE</span>
+        </div>
       </div>
     </section>
   );

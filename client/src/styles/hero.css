@@ -8,6 +8,12 @@
 .cta-row{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}
 .fine{margin-top:1rem;font-size:.95rem;color:var(--ink-3);font-style:italic}
 
+/* ---------- Scroll Indicator ---------- */
+.scroll-indicator{display:flex;justify-content:center;margin-top:clamp(2rem,4vw,3.5rem);animation:scrollBounce 2s ease-in-out infinite}
+.scroll-indicator-text{font-family:var(--f-display);font-size:0.7rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-3);opacity:0.7;transition:opacity 0.3s}
+.scroll-indicator:hover .scroll-indicator-text{opacity:1}
+@keyframes scrollBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
 /* ---------- Tools strip ---------- */
 .tools{background:var(--surface);border-block:1px solid var(--rule)}
 .tools .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 2rem;padding-block:1.5rem}
@@ -20,3 +26,4 @@
 .stats li{display:grid;gap:.2rem;align-content:start}
 .stat-value{font-family:var(--f-display);font-weight:800;font-size:clamp(1.8rem,2.4vw + .8rem,2.7rem);line-height:1;letter-spacing:-.03em;color:var(--ink)}
 .stat-label{max-width:15rem;color:var(--ink-2);font-size:.98rem;line-height:1.4}
+

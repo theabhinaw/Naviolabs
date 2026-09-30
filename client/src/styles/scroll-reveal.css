@@ -1,0 +1,39 @@
+/* ---------- Scroll Reveal Animations ---------- */
+
+/* Base: hidden state */
+.sr {
+  will-change: opacity, transform;
+  transition-property: opacity, transform;
+  transition-duration: var(--sr-duration, 800ms);
+  transition-delay: var(--sr-delay, 0ms);
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* fadeUp */
+.sr-fadeUp { opacity: 0; transform: translateY(50px); }
+.sr-fadeUp.is-visible { opacity: 1; transform: translateY(0); }
+
+/* fadeLeft */
+.sr-fadeLeft { opacity: 0; transform: translateX(-50px); }
+.sr-fadeLeft.is-visible { opacity: 1; transform: translateX(0); }
+
+/* fadeRight */
+.sr-fadeRight { opacity: 0; transform: translateX(50px); }
+.sr-fadeRight.is-visible { opacity: 1; transform: translateX(0); }
+
+/* scaleIn */
+.sr-scaleIn { opacity: 0; transform: scale(0.88); }
+.sr-scaleIn.is-visible { opacity: 1; transform: scale(1); }
+
+/* fadeIn */
+.sr-fadeIn { opacity: 0; }
+.sr-fadeIn.is-visible { opacity: 1; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .sr {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

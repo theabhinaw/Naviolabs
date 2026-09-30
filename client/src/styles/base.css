@@ -29,9 +29,11 @@ section[id]{scroll-margin-top:72px}
 .cursive-highlight{font-family:var(--f-accent);font-size:1.4em;color:var(--accent);font-weight:600;display:inline-block;animation:floatAccent 3.5s ease-in-out infinite;}
 
 /* ---------- Buttons ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:.9rem 1.4rem;border-radius:12px;border:2px solid transparent;font-family:var(--f-display);font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:0.06em;line-height:1;text-decoration:none;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s;animation:slideFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:.9rem 1.4rem;border-radius:12px;border:2px solid transparent;font-family:var(--f-display);font-weight:700;font-size:.95rem;text-transform:uppercase;letter-spacing:0.06em;line-height:1;text-decoration:none;cursor:pointer;transition:background-color .3s,color .3s,border-color .3s,transform .3s cubic-bezier(0.16,1,0.3,1),box-shadow .3s;animation:slideFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.12)}
+.btn:active{transform:translateY(0);box-shadow:none}
 .btn-primary{background:var(--accent);color:var(--on-accent)}
-.btn-primary:hover{background:var(--accent-hover)}
+.btn-primary:hover{background:var(--accent-hover);box-shadow:0 8px 30px color-mix(in srgb,var(--accent) 35%,transparent)}
 .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}
 .btn-ghost:hover{background:var(--ink);color:var(--bg)}
 .btn-light{background:var(--on-panel);color:var(--panel)}

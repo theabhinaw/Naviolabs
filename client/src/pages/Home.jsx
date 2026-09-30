@@ -8,20 +8,48 @@ import Process from '../components/sections/Process.jsx';
 import Team from '../components/sections/Team.jsx';
 import FAQ from '../components/sections/FAQ.jsx';
 import ContactForm from '../components/sections/ContactForm.jsx';
+import ScrollReveal from '../components/ui/ScrollReveal.jsx';
+import Marquee from '../components/ui/Marquee.jsx';
 
 export default function Home({ handleGetRealNumber, prefill }) {
   return (
     <>
       <Hero />
       <ToolsStrip />
-      <Services />
-      <CodePlayground />
-      <AISimulator />
-      <Calculator onGetRealNumber={handleGetRealNumber} />
-      <Process />
-      <Team />
-      <FAQ />
-      <ContactForm prefill={prefill} />
+
+      <Marquee />
+
+      <ScrollReveal animation="fadeUp">
+        <Services />
+      </ScrollReveal>
+
+      <ScrollReveal animation="fadeUp" delay={100}>
+        <CodePlayground />
+      </ScrollReveal>
+
+      <ScrollReveal animation="scaleIn">
+        <AISimulator />
+      </ScrollReveal>
+
+      <ScrollReveal animation="fadeUp" delay={100}>
+        <Calculator onGetRealNumber={handleGetRealNumber} />
+      </ScrollReveal>
+
+      <ScrollReveal animation="fadeLeft">
+        <Process />
+      </ScrollReveal>
+
+      <ScrollReveal animation="fadeUp" delay={100}>
+        <Team />
+      </ScrollReveal>
+
+      <ScrollReveal animation="fadeRight">
+        <FAQ />
+      </ScrollReveal>
+
+      <ScrollReveal animation="scaleIn">
+        <ContactForm prefill={prefill} />
+      </ScrollReveal>
     </>
   );
 }

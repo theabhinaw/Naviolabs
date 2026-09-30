@@ -1,0 +1,105 @@
+/* ---------- Loading Screen ---------- */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.loading-screen.is-done {
+  opacity: 0;
+  transform: translateY(-30px);
+  pointer-events: none;
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  animation: loadFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.loading-init {
+  font-family: var(--f-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0;
+}
+
+.loading-brand {
+  font-family: var(--f-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin: 0;
+  animation: none;
+}
+
+.loading-sub {
+  font-family: var(--f-text);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.loading-counter {
+  font-family: var(--f-heading);
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  margin-top: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  animation: none;
+}
+
+.loading-bar-track {
+  width: min(320px, 70vw);
+  height: 3px;
+  background: var(--rule);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+.loading-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+.loading-footer {
+  position: absolute;
+  bottom: clamp(1.5rem, 4vw, 3rem);
+  left: clamp(1.5rem, 4vw, 3rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--f-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+@keyframes loadFadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen { transition: none; }
+  .loading-content { animation: none; }
+}
