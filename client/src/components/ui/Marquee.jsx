@@ -1,4 +1,4 @@
-import '../styles/marquee.css';
+import '../../styles/marquee.css';
 
 const ITEMS = [
   'AI AUTOMATION',
