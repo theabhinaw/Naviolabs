@@ -29,6 +29,7 @@ export default function App() {
 
   return (
     <>
+      <div className="film-grain" aria-hidden="true"></div>
       {!loaded && <LoadingScreen onComplete={() => setLoaded(true)} />}
       <a className="skip" href="#main">
         Skip to content

@@ -14,6 +14,22 @@ svg{max-width:100%}
   50% { transform: rotate(-4deg) translateY(-3px) scale(1.03); }
 }
 
+/* ---------- Film Grain ---------- */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+[data-theme="dark"] .film-grain,
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .film-grain {
+    opacity: 0.07;
+  }
+}
+
 h1,h2,h3{font-family:var(--f-heading);font-weight:700;margin:0;color:var(--ink);text-wrap:balance;animation:slideFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
 p{margin:0}
 a{color:inherit}
