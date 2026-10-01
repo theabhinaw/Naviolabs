@@ -1,4 +1,4 @@
-/* ---------- Cinematic Team ---------- */
+/* ---------- Cinematic Team (3D Reel Style) ---------- */
 .team-cinematic-container {
   position: relative;
   background: var(--bg);
@@ -20,32 +20,146 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  min-height: 700px;
+  min-height: 800px;
   width: 100%;
+  overflow: hidden;
+  background: var(--panel);
+  border-top: 1px solid var(--rule);
   display: flex;
   align-items: center;
-  overflow: hidden;
-  background: var(--bg);
-  border-top: 1px solid var(--rule);
 }
 
-.tc-bg {
+/* Background Massive Typography */
+.tc-massive-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.tc-bg-line1 {
+  font-family: var(--f-display);
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: 800;
+  color: color-mix(in srgb, var(--on-panel) 6%, transparent);
+  letter-spacing: 0.05em;
+  margin-bottom: -1rem;
+}
+
+.tc-bg-line2 {
+  font-family: var(--f-heading);
+  font-size: clamp(3rem, 10vw, 13rem);
+  font-weight: 900;
+  color: color-mix(in srgb, var(--on-panel) 2%, transparent);
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--on-panel) 12%, transparent);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+/* Foreground Content */
+.tc-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding-block: 4rem;
+}
+
+@media (min-width: 900px) {
+  .tc-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+}
+
+.tc-visual-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 2000px; /* Crucial for GSAP 3D Spin */
+}
+
+/* 3D Floating Photo Card */
+.tc-floating-photo-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 4/5;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Front & Back Faces */
+.tc-card-front, .tc-card-back {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  border-radius: 20px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
 }
 
-.tc-photo {
+.tc-card-front {
+  background: var(--bg);
+  z-index: 2;
+}
+
+.tc-card-back {
+  background: color-mix(in srgb, var(--surface) 20%, var(--bg));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--rule);
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.tc-back-content {
+  text-align: center;
+  color: var(--on-panel);
+}
+
+.tc-back-content h2 {
+  font-family: var(--f-heading);
+  font-size: 3rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, var(--on-panel), var(--lane));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tc-back-content p {
+  font-family: var(--f-display);
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  color: var(--lane);
+}
+
+.tc-floating-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 25%;
-  filter: grayscale(15%) contrast(1.1);
-  transform: scale(1.01);
-  transition: transform 12s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.team-cinematic-panel:hover .tc-photo {
-  transform: scale(1.08);
+  border-radius: 20px;
+  filter: grayscale(10%) contrast(1.1);
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .tc-photo-placeholder {
@@ -54,77 +168,74 @@
   background: var(--surface);
 }
 
-.tc-overlay {
+.tc-photo-glow {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, var(--bg) 0%, color-mix(in srgb, var(--bg) 90%, transparent) 45%, transparent 100%),
-              linear-gradient(to top, var(--bg) 0%, transparent 25%);
+  inset: -20px;
+  z-index: -1;
+  border-radius: 40px;
+  filter: blur(50px);
+  opacity: 0.15;
+  transition: opacity 0.5s;
+}
+.tc-floating-photo-wrapper:hover .tc-photo-glow {
+  opacity: 0.5;
 }
 
-.tc-content {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
+.tc-scroll-hint {
+  margin-top: 3rem;
+  font-family: var(--f-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--on-panel-2);
+  animation: tcBounce 2s infinite;
+}
+
+@keyframes tcBounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+.tc-info-column {
   display: flex;
-  flex-direction: column;
   justify-content: center;
 }
 
-.tc-huge-text {
-  position: absolute;
-  top: 50%;
-  left: 45%;
-  transform: translate(-50%, -50%);
-  font-family: var(--f-display);
-  font-size: clamp(5rem, 18vw, 20rem);
-  font-weight: 900;
-  color: var(--ink);
-  opacity: 0.03;
-  white-space: nowrap;
-  pointer-events: none;
-  letter-spacing: -0.04em;
-  user-select: none;
-}
-
-.tc-info {
-  max-width: 580px;
-  position: relative;
-  padding: clamp(2rem, 4vw, 3rem);
-  background: color-mix(in srgb, var(--surface) 65%, transparent);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--rule);
-  border-radius: 20px;
-  box-shadow: 0 24px 48px rgba(0,0,0,0.12);
-  transform: translateY(30px);
-  opacity: 0;
-  animation: tcSlideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
+.tc-info-card {
+  max-width: 480px;
+  padding: 2.5rem;
+  background: color-mix(in srgb, var(--surface) 20%, transparent);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid color-mix(in srgb, var(--on-panel) 15%, transparent);
+  border-radius: 24px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
 .tc-greeting {
   font-family: var(--f-display);
   font-size: 0.85rem;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   font-weight: 700;
-  color: var(--ink-2);
+  color: var(--lane);
   margin-bottom: 0.5rem;
 }
 
 .tc-role {
   font-family: var(--f-heading);
-  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
-  line-height: 1;
-  color: var(--ink);
+  line-height: 1.1;
+  color: var(--on-panel);
   margin-bottom: 1.5rem;
   letter-spacing: -0.02em;
 }
 
 .tc-bio {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   line-height: 1.6;
-  color: var(--ink-2);
+  color: var(--on-panel-2);
   margin-bottom: 2.5rem;
 }
 
@@ -136,43 +247,20 @@
 }
 
 .tc-focus li {
-  padding: 0.6rem 1.2rem;
-  border: 1.5px solid var(--lane);
+  padding: 0.5rem 1.2rem;
+  border: 1px solid color-mix(in srgb, var(--lane) 40%, transparent);
   border-radius: 999px;
-  background: transparent;
+  background: color-mix(in srgb, var(--lane) 5%, transparent);
   font-family: var(--f-display);
   font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--ink);
-  transition: background 0.3s, color 0.3s, transform 0.3s;
+  font-weight: 600;
+  color: var(--on-panel);
+  transition: all 0.3s ease;
 }
+
 .tc-focus li:hover {
   background: var(--lane);
   color: var(--bg);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px color-mix(in srgb, var(--lane) 25%, transparent);
-}
-
-@keyframes tcSlideUp {
-  0% { opacity: 0; transform: translateY(40px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 900px) {
-  .tc-overlay {
-    background: linear-gradient(to top, var(--bg) 0%, color-mix(in srgb, var(--bg) 95%, transparent) 60%, transparent 100%);
-  }
-  .tc-content {
-    justify-content: flex-end;
-    padding-bottom: clamp(2rem, 8vw, 4rem);
-  }
-  .tc-huge-text {
-    top: 30%;
-    left: 50%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .tc-photo { transition: none; transform: none !important; }
-  .tc-info { animation: none; opacity: 1; transform: none; }
+  border-color: var(--lane);
+  transform: translateY(-2px);
 }
