@@ -1,7 +1,7 @@
 import Logo from './Logo.jsx';
 import { NAV_LINKS, SITE } from '../../data/content.js';
 import { whatsappLink } from '../../utils/format.js';
-import '../styles/footer.css';
+import '../../styles/footer.css';
 
 export default function Footer() {
   const whatsapp = whatsappLink(SITE.whatsapp, SITE.whatsappMessage);
