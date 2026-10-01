@@ -1,6 +1,7 @@
 import Hero from '../components/sections/Hero.jsx';
 import ToolsStrip from '../components/sections/ToolsStrip.jsx';
 import Services from '../components/sections/Services.jsx';
+import SelectedWork from '../components/sections/SelectedWork.jsx';
 import CodePlayground from '../components/sections/CodePlayground.jsx';
 import AISimulator from '../components/sections/AISimulator.jsx';
 import Calculator from '../components/sections/Calculator.jsx';
@@ -22,6 +23,8 @@ export default function Home({ handleGetRealNumber, prefill }) {
       <ScrollReveal animation="fadeUp">
         <Services />
       </ScrollReveal>
+
+      <SelectedWork />
 
       <ScrollReveal animation="fadeUp" delay={100}>
         <CodePlayground />
