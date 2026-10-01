@@ -17,6 +17,12 @@ export default function Dashboard() {
     { id: 2, title: 'Beta UI Testing', status: 'Draft', enrolled: 0 }
   ]);
   const [showProgramModal, setShowProgramModal] = useState(false);
+  
+  // Email Announcement state
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [emailData, setEmailData] = useState({ subject: '', message: '' });
+  const [emailStatus, setEmailStatus] = useState('idle'); // idle | sending | success | error
+  const [emailMsg, setEmailMsg] = useState('');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -75,6 +81,42 @@ export default function Dashboard() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleSendEmail = async () => {
+    if (!emailData.subject || !emailData.message) {
+      setEmailStatus('error');
+      setEmailMsg('Please fill in both subject and message.');
+      return;
+    }
+    
+    setEmailStatus('sending');
+    try {
+      const res = await fetch(`${API_URL}/api/admin/send-email`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}` 
+        },
+        body: JSON.stringify(emailData)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setEmailStatus('success');
+        setEmailMsg(data.message);
+        setTimeout(() => {
+          setShowEmailModal(false);
+          setEmailStatus('idle');
+          setEmailData({ subject: '', message: '' });
+        }, 3000);
+      } else {
+        setEmailStatus('error');
+        setEmailMsg(data.message || 'Failed to send.');
+      }
+    } catch (err) {
+      setEmailStatus('error');
+      setEmailMsg('Network error. Failed to send emails.');
+    }
   };
 
   return (
@@ -173,9 +215,54 @@ export default function Dashboard() {
                     <h3 style={{ marginBottom: '1.5rem', fontSize: '1.4rem' }}>Quick Actions</h3>
                     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                       <button className="btn btn-primary" style={{ background: 'var(--ink)' }} onClick={downloadCSV}>Download CSV Report</button>
-                      <button className="btn btn-ghost" style={{ border: '2px solid var(--rule-strong)' }}>Send Email Announcement</button>
+                      <button className="btn btn-ghost" style={{ border: '2px solid var(--rule-strong)' }} onClick={() => setShowEmailModal(true)}>Send Email Announcement</button>
                       <button className="btn btn-ghost" style={{ border: '2px solid var(--rule-strong)' }}>View Error Logs</button>
                     </div>
+
+                    {showEmailModal && (
+                      <div style={{ marginTop: '2rem', padding: '2rem', background: 'var(--soft)', borderRadius: '16px', border: '2px solid var(--rule-strong)' }}>
+                        <h4 style={{ fontSize: '1.2rem', marginBottom: '1.5rem' }}>Compose Announcement</h4>
+                        
+                        <input 
+                          type="text" 
+                          placeholder="Subject" 
+                          value={emailData.subject}
+                          onChange={(e) => setEmailData({...emailData, subject: e.target.value})}
+                          style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '2px solid var(--rule)', marginBottom: '1rem' }} 
+                        />
+                        
+                        <textarea 
+                          placeholder="Write your message here... This will be sent to all users." 
+                          rows="5" 
+                          value={emailData.message}
+                          onChange={(e) => setEmailData({...emailData, message: e.target.value})}
+                          style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '2px solid var(--rule)', marginBottom: '1rem', fontFamily: 'inherit' }}
+                        ></textarea>
+                        
+                        {emailStatus !== 'idle' && (
+                          <div style={{ padding: '1rem', marginBottom: '1rem', borderRadius: '8px', background: emailStatus === 'error' ? 'var(--coral)' : emailStatus === 'success' ? 'var(--teal)' : 'var(--rule)', color: emailStatus === 'sending' ? 'var(--ink)' : '#fff', fontWeight: 'bold' }}>
+                            {emailStatus === 'sending' ? 'Sending emails...' : emailMsg}
+                          </div>
+                        )}
+                        
+                        <div style={{ display: 'flex', gap: '1rem' }}>
+                          <button 
+                            className="btn btn-primary" 
+                            onClick={handleSendEmail}
+                            disabled={emailStatus === 'sending'}
+                          >
+                            {emailStatus === 'sending' ? 'Sending...' : 'Send to All Users'}
+                          </button>
+                          <button 
+                            className="btn btn-ghost" 
+                            onClick={() => { setShowEmailModal(false); setEmailStatus('idle'); }}
+                            disabled={emailStatus === 'sending'}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}

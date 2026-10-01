@@ -9,6 +9,7 @@ import { env, isProd } from './config/env.js';
 import { isDbReady } from './config/db.js';
 import leadRoutes from './routes/leadRoutes.js';
 import { authRouter } from './routes/authRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -68,6 +69,7 @@ export function createApp() {
 
   app.use('/api/leads', leadRoutes);
   app.use('/api/auth', authRouter);
+  app.use('/api/admin', adminRoutes);
   app.use('/api', notFound);
 
   // Optional: serve the built React app from the same server.
