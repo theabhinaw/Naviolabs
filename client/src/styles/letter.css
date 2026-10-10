@@ -1,0 +1,93 @@
+/* Joining Letter A4 Styles */
+.a4-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg);
+  border-radius: 12px;
+  border: 1px solid var(--rule);
+  width: 100%;
+  overflow-x: auto;
+}
+
+.a4-letter {
+  width: 210mm;
+  min-height: 297mm;
+  background: #ffffff;
+  color: #000000;
+  padding: 25mm;
+  box-sizing: border-box;
+  font-family: 'Georgia', 'Times New Roman', serif; /* Professional serif font for letters */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.letter-header {
+  text-align: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 8mm;
+  margin-bottom: 10mm;
+}
+
+.letter-header h2 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 0 0 5px 0;
+  text-transform: uppercase;
+  color: #000;
+  font-family: 'Inter', sans-serif; /* Keep brand font for logo text */
+}
+
+.letter-header p {
+  margin: 0;
+  font-size: 12px;
+  color: #444;
+  font-family: 'Inter', sans-serif;
+}
+
+.letter-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10mm;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.letter-subject {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: underline;
+  margin-bottom: 10mm;
+}
+
+.letter-body {
+  font-size: 14.5px;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+.letter-body p {
+  margin-bottom: 4mm;
+}
+
+.letter-body ul {
+  margin-bottom: 6mm;
+  padding-left: 10mm;
+}
+
+.letter-body li {
+  margin-bottom: 3mm;
+}
+
+.letter-signatures {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 25mm;
+  font-size: 14px;
+}
+
+.letter-signatures p {
+  margin: 0 0 4px 0;
+}

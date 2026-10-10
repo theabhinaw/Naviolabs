@@ -13,6 +13,15 @@ export default function Dashboard() {
   const [adminTab, setAdminTab] = useState('overview');
   const [selectedEmpForId, setSelectedEmpForId] = useState(null);
   
+  // Letter State
+  const [selectedEmpForLetter, setSelectedEmpForLetter] = useState(null);
+  const [letterDetails, setLetterDetails] = useState({
+    doj: new Date().toISOString().split('T')[0],
+    ctc: '₹6,00,000',
+    probation: '3',
+    issueDate: new Date().toLocaleDateString('en-GB')
+  });
+
   const [programs, setPrograms] = useState([
     { id: 1, title: 'Company Testing Program v1', status: 'Active', enrolled: 12 },
     { id: 2, title: 'Beta UI Testing', status: 'Draft', enrolled: 0 }
@@ -159,7 +168,7 @@ export default function Dashboard() {
               
               {/* Admin Tabs Navigation */}
               <div style={{ display: 'flex', gap: '1rem', borderBottom: '2px solid var(--rule)', paddingBottom: '1rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }} className="no-print">
-                {['overview', 'users', 'id-cards', 'programs', 'settings'].map(tab => (
+                {['overview', 'users', 'id-cards', 'joining-letters', 'programs', 'settings'].map(tab => (
                   <button 
                     key={tab} 
                     onClick={() => setAdminTab(tab)}
@@ -532,7 +541,157 @@ export default function Dashboard() {
                 </div>
               )}
 
-              {/* PROGRAMS TAB */}
+              {/* JOINING LETTERS TAB */}
+              {adminTab === 'joining-letters' && (
+                <div className="form no-print" style={{ padding: '2.5rem', borderTop: '4px solid var(--coral)' }}>
+                  <h3 style={{ fontSize: '1.8rem', marginBottom: '1.5rem' }}>Offer & Joining Letters</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
+                    
+                    {/* Left: Employee List */}
+                    <div>
+                      <p style={{ color: 'var(--ink-2)', marginBottom: '1rem' }}>Select an employee to generate their letter.</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '400px', overflowY: 'auto' }}>
+                        {users.filter(u => u.role === 'employee' || u.role === 'admin').map(emp => (
+                          <button 
+                            key={emp._id}
+                            onClick={() => setSelectedEmpForLetter(emp)}
+                            style={{
+                              padding: '1rem',
+                              textAlign: 'left',
+                              background: selectedEmpForLetter?._id === emp._id ? 'var(--soft)' : 'var(--surface)',
+                              border: `2px solid ${selectedEmpForLetter?._id === emp._id ? 'var(--coral)' : 'var(--rule)'}`,
+                              borderRadius: '12px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                              {emp.photo ? (
+                                <img src={emp.photo} alt="" style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
+                              ) : (
+                                <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--rule)', display: 'grid', placeItems: 'center', fontSize: '0.8rem', fontWeight: 700, color: 'var(--ink-2)' }}>{emp.name.substring(0,2).toUpperCase()}</div>
+                              )}
+                              <div>
+                                <strong style={{ display: 'block', fontSize: '1.05rem', color: 'var(--ink)' }}>{emp.name}</strong>
+                                <span style={{ fontSize: '0.8rem', color: 'var(--ink-2)' }}>{emp.email}</span>
+                              </div>
+                            </div>
+                            <span style={{ fontSize: '0.75rem', padding: '0.2rem 0.5rem', background: 'var(--rule)', color: 'var(--ink)', borderRadius: '6px', textTransform: 'capitalize' }}>{emp.role}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Right: Letter Details & Preview */}
+                    {selectedEmpForLetter ? (
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+                          <div className="field" style={{ marginBottom: 0 }}>
+                            <label style={{ fontSize: '0.85rem' }}>Date of Joining</label>
+                            <input 
+                              type="date" 
+                              value={letterDetails.doj} 
+                              onChange={(e) => setLetterDetails({...letterDetails, doj: e.target.value})} 
+                              style={{ padding: '0.6rem 1rem' }}
+                            />
+                          </div>
+                          <div className="field" style={{ marginBottom: 0 }}>
+                            <label style={{ fontSize: '0.85rem' }}>CTC (Compensation)</label>
+                            <input 
+                              type="text" 
+                              value={letterDetails.ctc} 
+                              onChange={(e) => setLetterDetails({...letterDetails, ctc: e.target.value})} 
+                              style={{ padding: '0.6rem 1rem' }}
+                            />
+                          </div>
+                          <div className="field" style={{ marginBottom: 0 }}>
+                            <label style={{ fontSize: '0.85rem' }}>Probation (Months)</label>
+                            <input 
+                              type="number" 
+                              value={letterDetails.probation} 
+                              onChange={(e) => setLetterDetails({...letterDetails, probation: e.target.value})} 
+                              style={{ padding: '0.6rem 1rem' }}
+                            />
+                          </div>
+                          <div className="field" style={{ marginBottom: 0 }}>
+                            <label style={{ fontSize: '0.85rem' }}>Issue Date</label>
+                            <input 
+                              type="text" 
+                              value={letterDetails.issueDate} 
+                              onChange={(e) => setLetterDetails({...letterDetails, issueDate: e.target.value})} 
+                              style={{ padding: '0.6rem 1rem' }}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="a4-wrapper" style={{ maxHeight: '600px', overflowY: 'auto' }}>
+                          <div className="a4-letter printable-letter" id="letter-capture">
+                            <div className="letter-header">
+                              <h2>NAVIO LABS</h2>
+                              <p>Navio Labs Pvt. Ltd. | 123 Innovation Drive, Tech City</p>
+                            </div>
+                            <div className="letter-meta">
+                              <p><strong>Date:</strong> {letterDetails.issueDate}</p>
+                              <p><strong>To:</strong><br/>{selectedEmpForLetter.name}<br/>{selectedEmpForLetter.email}</p>
+                            </div>
+                            <h3 className="letter-subject">Subject: Letter of Appointment</h3>
+                            <div className="letter-body">
+                              <p>Dear {selectedEmpForLetter.name},</p>
+                              <p>With reference to your application and subsequent interviews, we are pleased to offer you the position of <strong>{selectedEmpForLetter.designation || 'Full Stack Developer'}</strong> at Navio Labs.</p>
+                              <p>Your terms of employment are as follows:</p>
+                              <ul>
+                                <li><strong>Date of Joining:</strong> {new Date(letterDetails.doj).toLocaleDateString('en-GB')}</li>
+                                <li><strong>Compensation (CTC):</strong> {letterDetails.ctc} per annum</li>
+                                <li><strong>Probation Period:</strong> You will be on a probation period of {letterDetails.probation} months.</li>
+                                <li><strong>Working Hours:</strong> Standard office hours as per company policy (Monday to Friday).</li>
+                                <li><strong>Notice Period:</strong> Either party may terminate this agreement by giving 30 days of written notice.</li>
+                              </ul>
+                              <p>Please sign and return a copy of this letter to indicate your acceptance of this offer and the terms outlined above.</p>
+                              <p>We welcome you to the Navio Labs family and wish you a long and successful career with us.</p>
+                            </div>
+                            <div className="letter-signatures">
+                              <div>
+                                <p>Sincerely,</p>
+                                <br/><br/>
+                                <p>___________________<br/><strong>Authorized Signatory</strong><br/>Navio Labs</p>
+                              </div>
+                              <div style={{ textAlign: 'right' }}>
+                                <p>Accepted By:</p>
+                                <br/><br/>
+                                <p>___________________<br/><strong>{selectedEmpForLetter.name}</strong></p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1.5rem', justifyContent: 'center' }}>
+                          <button 
+                            className="btn btn-primary" 
+                            style={{ background: 'var(--coral)', border: 'none' }}
+                            onClick={async () => {
+                              const el = document.querySelector('#letter-capture');
+                              if (!el) return;
+                              const html2canvas = (await import('html2canvas')).default;
+                              const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
+                              const imgData = canvas.toDataURL('image/png');
+                              const printWin = window.open('', '_blank');
+                              printWin.document.write(`<html><head><title>Joining Letter - ${selectedEmpForLetter.name}</title></head><body style="margin:0;display:flex;justify-content:center;background:#fff;"><img src="${imgData}" style="width:210mm;height:auto;" /><script>setTimeout(()=>{window.print();window.close();},500);<\/script></body></html>`);
+                              printWin.document.close();
+                            }}
+                          >🖨 Print / PDF</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'grid', placeItems: 'center', background: 'var(--soft)', borderRadius: '12px', border: '2px dashed var(--rule-strong)', minHeight: '300px' }}>
+                        <p style={{ color: 'var(--ink-2)' }}>← Select an employee to preview Joining Letter.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {adminTab === 'programs' && (
                 <div className="form" style={{ padding: '2.5rem', borderTop: '4px solid var(--amber)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
