@@ -328,9 +328,11 @@ export default function Dashboard() {
 
               {/* ID CARDS TAB */}
               {adminTab === 'id-cards' && (
-                <div className="form no-print" style={{ padding: '2.5rem', borderTop: '4px solid var(--cobalt)' }}>
+                <div className="form" style={{ padding: '2.5rem', borderTop: '4px solid var(--cobalt)' }}>
                   <h3 style={{ fontSize: '1.8rem', marginBottom: '1.5rem' }}>ID Card Generator</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
+                    
+                    {/* Left: Employee List */}
                     <div>
                       <p style={{ color: 'var(--ink-2)', marginBottom: '1rem' }}>Select an employee to generate their official ID card.</p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '400px', overflowY: 'auto' }}>
@@ -350,19 +352,96 @@ export default function Dashboard() {
                               justifyContent: 'space-between'
                             }}
                           >
-                            <div>
-                              <strong style={{ display: 'block', fontSize: '1.1rem', color: 'var(--ink)' }}>{emp.name}</strong>
-                              <span style={{ fontSize: '0.85rem', color: 'var(--ink-2)' }}>{emp.email}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                              {emp.photo ? (
+                                <img src={emp.photo} alt="" style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
+                              ) : (
+                                <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--rule)', display: 'grid', placeItems: 'center', fontSize: '0.8rem', fontWeight: 700, color: 'var(--ink-2)' }}>{emp.name.substring(0,2).toUpperCase()}</div>
+                              )}
+                              <div>
+                                <strong style={{ display: 'block', fontSize: '1.05rem', color: 'var(--ink)' }}>{emp.name}</strong>
+                                <span style={{ fontSize: '0.8rem', color: 'var(--ink-2)' }}>{emp.email}</span>
+                              </div>
                             </div>
-                            <span style={{ fontSize: '0.8rem', padding: '0.2rem 0.5rem', background: 'var(--rule)', color: 'var(--ink)', borderRadius: '6px' }}>{emp.role}</span>
+                            <span style={{ fontSize: '0.75rem', padding: '0.2rem 0.5rem', background: 'var(--rule)', color: 'var(--ink)', borderRadius: '6px', textTransform: 'capitalize' }}>{emp.role}</span>
                           </button>
                         ))}
+                        {users.filter(u => u.role === 'employee' || u.role === 'admin').length === 0 && (
+                          <p style={{ color: 'var(--ink-2)', padding: '1rem' }}>No employees found. Register employees first.</p>
+                        )}
                       </div>
                     </div>
                     
+                    {/* Right: Card Preview + Actions */}
                     {selectedEmpForId ? (
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <div className="id-card-wrapper printable-id-card">
+                        
+                        {/* Photo Upload */}
+                        <div style={{ marginBottom: '1.5rem', textAlign: 'center', width: '100%' }}>
+                          <label style={{ display: 'block', fontWeight: 700, marginBottom: '0.5rem', fontSize: '0.9rem' }}>Employee Photo</label>
+                          <input 
+                            type="file" 
+                            accept="image/*"
+                            onChange={async (e) => {
+                              const file = e.target.files[0];
+                              if (!file) return;
+                              const reader = new FileReader();
+                              reader.onloadend = async () => {
+                                const base64 = reader.result;
+                                try {
+                                  const res = await fetch(`${API_URL}/api/admin/employee-card/${selectedEmpForId._id}`, {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
+                                    body: JSON.stringify({ photo: base64 })
+                                  });
+                                  const data = await res.json();
+                                  if (data.success) {
+                                    setSelectedEmpForId({ ...selectedEmpForId, photo: base64 });
+                                    setUsers(prev => prev.map(u => u._id === selectedEmpForId._id ? { ...u, photo: base64 } : u));
+                                  }
+                                } catch(err) { console.error(err); }
+                              };
+                              reader.readAsDataURL(file);
+                            }}
+                            style={{ fontSize: '0.85rem' }}
+                          />
+                        </div>
+
+                        {/* Designation */}
+                        <div style={{ marginBottom: '1.5rem', width: '100%' }}>
+                          <label style={{ display: 'block', fontWeight: 700, marginBottom: '0.5rem', fontSize: '0.9rem' }}>Designation</label>
+                          <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <input 
+                              type="text" 
+                              placeholder="e.g. Full Stack Developer"
+                              defaultValue={selectedEmpForId.designation || ''}
+                              id="designation-input"
+                              style={{ flex: 1, padding: '0.6rem 1rem', borderRadius: '8px', border: '1px solid var(--rule)', fontSize: '0.9rem' }}
+                            />
+                            <button 
+                              className="btn btn-primary" 
+                              style={{ padding: '0.6rem 1rem', fontSize: '0.85rem', minHeight: 'auto' }}
+                              onClick={async () => {
+                                const designation = document.getElementById('designation-input').value;
+                                try {
+                                  const res = await fetch(`${API_URL}/api/admin/employee-card/${selectedEmpForId._id}`, {
+                                    method: 'PUT',
+                                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('token')}` },
+                                    body: JSON.stringify({ designation })
+                                  });
+                                  const data = await res.json();
+                                  if (data.success) {
+                                    setSelectedEmpForId({ ...selectedEmpForId, designation });
+                                    setUsers(prev => prev.map(u => u._id === selectedEmpForId._id ? { ...u, designation } : u));
+                                  }
+                                } catch(err) { console.error(err); }
+                              }}
+                            >Save</button>
+                          </div>
+                        </div>
+
+                        {/* ID Card Preview */}
+                        <div className="id-card-wrapper" id="id-card-capture">
                           <div className="id-card-preview">
                             <div className="id-card-bg-shape"></div>
                             <div className="id-card-content">
@@ -371,10 +450,14 @@ export default function Dashboard() {
                                 <h2>Navio Labs</h2>
                               </div>
                               <div className="id-card-photo">
-                                {selectedEmpForId.name.substring(0,2).toUpperCase()}
+                                {selectedEmpForId.photo ? (
+                                  <img src={selectedEmpForId.photo} alt={selectedEmpForId.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                                ) : (
+                                  selectedEmpForId.name.substring(0,2).toUpperCase()
+                                )}
                               </div>
                               <h3 className="id-card-name">{selectedEmpForId.name}</h3>
-                              <p className="id-card-role">{selectedEmpForId.role === 'admin' ? 'Executive Admin' : 'Full Stack Developer'}</p>
+                              <p className="id-card-role">{selectedEmpForId.designation || (selectedEmpForId.role === 'admin' ? 'Executive Admin' : 'Full Stack Developer')}</p>
                               
                               <div className="id-card-emp-id">
                                 ID: NL{selectedEmpForId._id.substring(0,6).toUpperCase()}
@@ -395,13 +478,54 @@ export default function Dashboard() {
                             </div>
                           </div>
                         </div>
-                        <button onClick={() => window.print()} className="btn btn-primary no-print" style={{ marginTop: '2rem', width: '100%', maxWidth: '250px' }}>
-                          Print ID Card
-                        </button>
+
+                        {/* Action Buttons */}
+                        <div style={{ display: 'flex', gap: '0.8rem', marginTop: '1.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                          <button 
+                            className="btn btn-primary" 
+                            style={{ fontSize: '0.9rem' }}
+                            onClick={async () => {
+                              const el = document.querySelector('#id-card-capture .id-card-preview');
+                              if (!el) return;
+                              const html2canvas = (await import('html2canvas')).default;
+                              const canvas = await html2canvas(el, { scale: 3, backgroundColor: null, useCORS: true });
+                              const link = document.createElement('a');
+                              link.download = `IDCard_${selectedEmpForId.name.replace(/\s+/g, '_')}.png`;
+                              link.href = canvas.toDataURL('image/png');
+                              link.click();
+                            }}
+                          >⬇ Download PNG</button>
+                          
+                          <button 
+                            className="btn btn-ghost" 
+                            style={{ fontSize: '0.9rem', border: '2px solid var(--rule-strong)' }}
+                            onClick={async () => {
+                              const el = document.querySelector('#id-card-capture .id-card-preview');
+                              if (!el) return;
+                              const html2canvas = (await import('html2canvas')).default;
+                              const canvas = await html2canvas(el, { scale: 3, backgroundColor: null, useCORS: true });
+                              const imgData = canvas.toDataURL('image/png');
+                              const printWin = window.open('', '_blank');
+                              printWin.document.write(`<html><head><title>ID Card</title></head><body style="margin:0;display:flex;justify-content:center;padding:10mm;"><img src="${imgData}" style="width:54mm;height:86mm;" /><script>setTimeout(()=>{window.print();window.close();},500);<\/script></body></html>`);
+                              printWin.document.close();
+                            }}
+                          >🖨 Print</button>
+
+                          <button 
+                            className="btn btn-ghost" 
+                            style={{ fontSize: '0.9rem', border: '2px solid var(--rule-strong)' }}
+                            onClick={() => {
+                              const shareUrl = `${window.location.origin}/id-card/${selectedEmpForId._id}`;
+                              navigator.clipboard.writeText(shareUrl).then(() => {
+                                alert('Link copied! Share this URL:\n' + shareUrl);
+                              });
+                            }}
+                          >🔗 Share Link</button>
+                        </div>
                       </div>
                     ) : (
                       <div style={{ display: 'grid', placeItems: 'center', background: 'var(--soft)', borderRadius: '12px', border: '2px dashed var(--rule-strong)', minHeight: '300px' }}>
-                        <p style={{ color: 'var(--ink-2)' }}>Select an employee to preview ID Card.</p>
+                        <p style={{ color: 'var(--ink-2)' }}>← Select an employee to preview ID Card.</p>
                       </div>
                     )}
                   </div>

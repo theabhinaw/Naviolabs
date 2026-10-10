@@ -55,7 +55,7 @@ export function createApp() {
     })
   );
 
-  app.use(express.json({ limit: '20kb' }));
+  app.use(express.json({ limit: '5mb' }));
   if (!isProd) app.use(morgan('dev'));
 
   app.get('/api/health', (req, res) => {

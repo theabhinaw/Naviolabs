@@ -12,6 +12,7 @@ import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import IDCardPage from './pages/IDCardPage.jsx';
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -49,6 +50,7 @@ export default function App() {
         <Route path="/login" element={<main id="main"><Login /></main>} />
         <Route path="/register" element={<main id="main"><Register /></main>} />
         <Route path="/dashboard" element={<main id="main"><Dashboard /></main>} />
+        <Route path="/id-card/:id" element={<main id="main"><IDCardPage /></main>} />
       </Routes>
 
       <Footer />

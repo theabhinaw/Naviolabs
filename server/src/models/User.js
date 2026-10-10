@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'employee', 'admin'], 
       default: 'user' 
     },
+    photo: { type: String, default: '' },
+    designation: { type: String, default: '' },
   },
   { timestamps: true }
 );

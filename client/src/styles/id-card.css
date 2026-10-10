@@ -147,31 +147,86 @@
 }
 
 @media print {
-  /* Hide everything else */
-  body * {
-    visibility: hidden;
+  /* Force browser to print background colors & images */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
   }
-  
-  /* Make only the ID Card visible */
-  .printable-id-card, .printable-id-card * {
-    visibility: visible;
+
+  /* Hide the entire page */
+  body > * {
+    display: none !important;
   }
-  
-  /* Position it for standard CR80 printing */
-  .printable-id-card {
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    border: none;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+
+  /* But show the React root */
+  body > #root {
+    display: block !important;
   }
-  
-  /* Hide specific UI elements that shouldn't be printed */
+
+  /* Hide everything inside root */
+  #root > * {
+    display: none !important;
+  }
+
+  /* Show only the printable card's ancestor chain */
+  #root .printable-id-card {
+    display: flex !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 999999 !important;
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 10mm !important;
+    border: none !important;
+    box-shadow: none !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Make sure the card itself renders */
+  .printable-id-card .id-card-preview {
+    display: flex !important;
+    width: 54mm !important;
+    height: 86mm !important;
+    background: linear-gradient(135deg, #091326 0%, #060c1c 100%) !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+    border: 1px solid #333 !important;
+  }
+
+  .printable-id-card .id-card-content,
+  .printable-id-card .id-card-header,
+  .printable-id-card .id-card-photo,
+  .printable-id-card .id-card-name,
+  .printable-id-card .id-card-role,
+  .printable-id-card .id-card-emp-id,
+  .printable-id-card .id-card-footer,
+  .printable-id-card .id-card-qr,
+  .printable-id-card .id-card-details,
+  .printable-id-card .id-card-domain,
+  .printable-id-card .id-card-bg-shape {
+    display: flex !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure ancestors are visible */
+  .printable-id-card,
+  .printable-id-card * {
+    visibility: visible !important;
+  }
+
+  /* Hide no-print elements */
   .no-print {
     display: none !important;
   }
+
+  /* Remove page margins */
+  @page {
+    margin: 5mm;
+    size: auto;
+  }
 }
+
