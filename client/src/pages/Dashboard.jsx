@@ -628,39 +628,49 @@ export default function Dashboard() {
 
                         <div className="a4-wrapper" style={{ maxHeight: '600px', overflowY: 'auto' }}>
                           <div className="a4-letter printable-letter" id="letter-capture">
-                            <div className="letter-header">
-                              <h2>NAVIO LABS</h2>
-                              <p>Navio Labs Pvt. Ltd. | 123 Innovation Drive, Tech City</p>
+                            <div className="letter-watermark">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2L21 5.9a2.12 2.12 0 0 0-3-3L4.5 16.5z"/></svg>
+                              <h1>NAVIO LABS</h1>
                             </div>
-                            <div className="letter-meta">
-                              <p><strong>Date:</strong> {letterDetails.issueDate}</p>
-                              <p><strong>To:</strong><br/>{selectedEmpForLetter.name}<br/>{selectedEmpForLetter.email}</p>
-                            </div>
-                            <h3 className="letter-subject">Subject: Letter of Appointment</h3>
-                            <div className="letter-body">
-                              <p>Dear {selectedEmpForLetter.name},</p>
-                              <p>With reference to your application and subsequent interviews, we are pleased to offer you the position of <strong>{selectedEmpForLetter.designation || 'Full Stack Developer'}</strong> at Navio Labs.</p>
-                              <p>Your terms of employment are as follows:</p>
-                              <ul>
-                                <li><strong>Date of Joining:</strong> {new Date(letterDetails.doj).toLocaleDateString('en-GB')}</li>
-                                <li><strong>Compensation (CTC):</strong> {letterDetails.ctc} per annum</li>
-                                <li><strong>Probation Period:</strong> You will be on a probation period of {letterDetails.probation} months.</li>
-                                <li><strong>Working Hours:</strong> Standard office hours as per company policy (Monday to Friday).</li>
-                                <li><strong>Notice Period:</strong> Either party may terminate this agreement by giving 30 days of written notice.</li>
-                              </ul>
-                              <p>Please sign and return a copy of this letter to indicate your acceptance of this offer and the terms outlined above.</p>
-                              <p>We welcome you to the Navio Labs family and wish you a long and successful career with us.</p>
-                            </div>
-                            <div className="letter-signatures">
-                              <div>
-                                <p>Sincerely,</p>
-                                <br/><br/>
-                                <p>___________________<br/><strong>Authorized Signatory</strong><br/>Navio Labs</p>
+                            
+                            <div className="letter-content-layer">
+                              <div className="letter-header">
+                                <div className="letter-logo">
+                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2L21 5.9a2.12 2.12 0 0 0-3-3L4.5 16.5z"/></svg>
+                                  <h2>NAVIO LABS</h2>
+                                </div>
+                                <p>Navio Labs Pvt. Ltd. | 123 Innovation Drive, Tech City</p>
                               </div>
-                              <div style={{ textAlign: 'right' }}>
-                                <p>Accepted By:</p>
-                                <br/><br/>
-                                <p>___________________<br/><strong>{selectedEmpForLetter.name}</strong></p>
+                              <div className="letter-meta">
+                                <p><strong>Date:</strong> {letterDetails.issueDate}</p>
+                                <p><strong>To:</strong><br/>{selectedEmpForLetter.name}<br/>{selectedEmpForLetter.email}</p>
+                              </div>
+                              <h3 className="letter-subject">Subject: Letter of Appointment</h3>
+                              <div className="letter-body">
+                                <p>Dear {selectedEmpForLetter.name},</p>
+                                <p>With reference to your application and subsequent interviews, we are pleased to offer you the position of <strong>{selectedEmpForLetter.designation || 'Full Stack Developer'}</strong> at Navio Labs.</p>
+                                <p>Your terms of employment are as follows:</p>
+                                <ul>
+                                  <li><strong>Date of Joining:</strong> {new Date(letterDetails.doj).toLocaleDateString('en-GB')}</li>
+                                  <li><strong>Compensation (CTC):</strong> {letterDetails.ctc} per annum</li>
+                                  <li><strong>Probation Period:</strong> You will be on a probation period of {letterDetails.probation} months.</li>
+                                  <li><strong>Working Hours:</strong> Standard office hours as per company policy (Monday to Friday).</li>
+                                  <li><strong>Notice Period:</strong> Either party may terminate this agreement by giving 30 days of written notice.</li>
+                                </ul>
+                                <p>Please sign and return a copy of this letter to indicate your acceptance of this offer and the terms outlined above.</p>
+                                <p>We welcome you to the Navio Labs family and wish you a long and successful career with us.</p>
+                              </div>
+                              <div className="letter-signatures">
+                                <div>
+                                  <p>Sincerely,</p>
+                                  <br/><br/>
+                                  <p>___________________<br/><strong>Authorized Signatory</strong><br/>Navio Labs</p>
+                                </div>
+                                <div style={{ textAlign: 'right' }}>
+                                  <p>Accepted By:</p>
+                                  <br/><br/>
+                                  <p>___________________<br/><strong>{selectedEmpForLetter.name}</strong></p>
+                                </div>
                               </div>
                             </div>
                           </div>

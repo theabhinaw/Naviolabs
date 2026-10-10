@@ -1,4 +1,4 @@
-/* Joining Letter A4 Styles */
+/* Joining Letter A4 Styles - STRICT PIXELS */
 .a4-wrapper {
   display: flex;
   justify-content: center;
@@ -11,83 +11,140 @@
 }
 
 .a4-letter {
-  width: 210mm;
-  min-height: 297mm;
-  background: #ffffff;
-  color: #000000;
-  padding: 25mm;
+  width: 794px !important;
+  min-height: 1123px !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  padding: 80px 80px !important;
   box-sizing: border-box;
-  font-family: 'Georgia', 'Times New Roman', serif; /* Professional serif font for letters */
+  font-family: 'Arial', Helvetica, sans-serif !important;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   position: relative;
+  overflow: hidden;
+}
+
+/* Watermark styles */
+.letter-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.03; /* Very faint */
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+}
+
+.letter-watermark svg {
+  width: 300px;
+  height: 300px;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.letter-watermark h1 {
+  font-size: 80px;
+  font-weight: 900;
+  color: #000;
+  margin: 0;
+  letter-spacing: 5px;
+}
+
+/* Make sure text stays above watermark */
+.letter-content-layer {
+  position: relative;
+  z-index: 1;
 }
 
 .letter-header {
   text-align: center;
-  border-bottom: 2px solid #000;
-  padding-bottom: 8mm;
-  margin-bottom: 10mm;
+  border-bottom: 3px solid #000;
+  padding-bottom: 25px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.letter-header h2 {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  margin: 0 0 5px 0;
-  text-transform: uppercase;
+.letter-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.letter-logo svg {
+  width: 36px;
+  height: 36px;
   color: #000;
-  font-family: 'Inter', sans-serif; /* Keep brand font for logo text */
+}
+
+.letter-logo h2 {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  margin: 0;
+  color: #000 !important;
 }
 
 .letter-header p {
-  margin: 0;
-  font-size: 12px;
-  color: #444;
-  font-family: 'Inter', sans-serif;
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  color: #333 !important;
 }
 
 .letter-meta {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10mm;
-  font-size: 14px;
+  margin-bottom: 40px;
+  font-size: 16px;
   line-height: 1.6;
+  color: #000 !important;
 }
 
 .letter-subject {
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   text-decoration: underline;
-  margin-bottom: 10mm;
+  margin-bottom: 40px;
+  color: #000 !important;
 }
 
+/* Remove text-align justify to prevent weird word spacing */
 .letter-body {
-  font-size: 14.5px;
-  line-height: 1.8;
-  text-align: justify;
+  font-size: 16px;
+  line-height: 1.7;
+  text-align: left !important;
+  color: #000 !important;
 }
 
 .letter-body p {
-  margin-bottom: 4mm;
+  margin-bottom: 16px;
 }
 
 .letter-body ul {
-  margin-bottom: 6mm;
-  padding-left: 10mm;
+  margin-bottom: 24px;
+  padding-left: 40px;
 }
 
 .letter-body li {
-  margin-bottom: 3mm;
+  margin-bottom: 12px;
 }
 
 .letter-signatures {
   display: flex;
   justify-content: space-between;
-  margin-top: 25mm;
-  font-size: 14px;
+  margin-top: 80px;
+  font-size: 16px;
+  color: #000 !important;
 }
 
 .letter-signatures p {
-  margin: 0 0 4px 0;
+  margin: 0 0 5px 0;
 }
