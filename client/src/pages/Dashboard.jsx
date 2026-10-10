@@ -629,14 +629,12 @@ export default function Dashboard() {
                         <div className="a4-wrapper" style={{ maxHeight: '600px', overflowY: 'auto' }}>
                           <div className="a4-letter printable-letter" id="letter-capture">
                             <div className="letter-watermark">
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2L21 5.9a2.12 2.12 0 0 0-3-3L4.5 16.5z"/></svg>
                               <h1>NAVIO LABS</h1>
                             </div>
                             
                             <div className="letter-content-layer">
                               <div className="letter-header">
                                 <div className="letter-logo">
-                                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2L21 5.9a2.12 2.12 0 0 0-3-3L4.5 16.5z"/></svg>
                                   <h2>NAVIO LABS</h2>
                                 </div>
                                 <p>Navio Labs Pvt. Ltd. | 123 Innovation Drive, Tech City</p>
@@ -680,14 +678,67 @@ export default function Dashboard() {
                           <button 
                             className="btn btn-primary" 
                             style={{ background: 'var(--coral)', border: 'none' }}
-                            onClick={async () => {
-                              const el = document.querySelector('#letter-capture');
-                              if (!el) return;
-                              const html2canvas = (await import('html2canvas')).default;
-                              const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
-                              const imgData = canvas.toDataURL('image/png');
+                            onClick={() => {
                               const printWin = window.open('', '_blank');
-                              printWin.document.write(`<html><head><title>Joining Letter - ${selectedEmpForLetter.name}</title></head><body style="margin:0;display:flex;justify-content:center;background:#fff;"><img src="${imgData}" style="width:210mm;height:auto;" /><script>setTimeout(()=>{window.print();window.close();},500);<\/script></body></html>`);
+                              printWin.document.write(`
+                                <html>
+                                  <head>
+                                    <title>Joining Letter - ${selectedEmpForLetter.name}</title>
+                                    <style>
+                                      @page { size: A4; margin: 20mm; }
+                                      body { font-family: 'Arial', sans-serif; color: #000; line-height: 1.6; font-size: 15px; margin: 0; padding: 0; position: relative; }
+                                      .watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 100px; color: rgba(0,0,0,0.03); font-weight: 900; z-index: -1; white-space: nowrap; pointer-events: none; letter-spacing: 5px; }
+                                      .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 20px; margin-bottom: 40px; }
+                                      .header h1 { margin: 0; font-size: 32px; font-weight: 900; letter-spacing: 2px; }
+                                      .header p { margin: 5px 0 0 0; font-size: 12px; color: #333; }
+                                      .meta { display: flex; justify-content: space-between; margin-bottom: 40px; font-size: 16px; }
+                                      .subject { text-align: center; font-weight: bold; text-decoration: underline; font-size: 18px; margin-bottom: 40px; }
+                                      .body-text p { margin-bottom: 16px; }
+                                      ul { margin-bottom: 24px; padding-left: 40px; }
+                                      li { margin-bottom: 12px; }
+                                      .signatures { display: flex; justify-content: space-between; margin-top: 80px; font-size: 16px; }
+                                      .signatures p { margin: 0 0 5px 0; }
+                                    </style>
+                                  </head>
+                                  <body>
+                                    <div class="watermark">NAVIO LABS</div>
+                                    <div class="header">
+                                      <h1>NAVIO LABS</h1>
+                                      <p>Navio Labs Pvt. Ltd. | 123 Innovation Drive, Tech City</p>
+                                    </div>
+                                    <div class="meta">
+                                      <div><strong>Date:</strong> ${letterDetails.issueDate}</div>
+                                      <div style="text-align: right;"><strong>To:</strong><br/>${selectedEmpForLetter.name}<br/>${selectedEmpForLetter.email}</div>
+                                    </div>
+                                    <div class="subject">Subject: Letter of Appointment</div>
+                                    <div class="body-text">
+                                      <p>Dear ${selectedEmpForLetter.name},</p>
+                                      <p>With reference to your application and subsequent interviews, we are pleased to offer you the position of <strong>${selectedEmpForLetter.designation || 'Full Stack Developer'}</strong> at Navio Labs.</p>
+                                      <p>Your terms of employment are as follows:</p>
+                                      <ul>
+                                        <li><strong>Date of Joining:</strong> ${new Date(letterDetails.doj).toLocaleDateString('en-GB')}</li>
+                                        <li><strong>Compensation (CTC):</strong> ${letterDetails.ctc} per annum</li>
+                                        <li><strong>Probation Period:</strong> You will be on a probation period of ${letterDetails.probation} months.</li>
+                                        <li><strong>Working Hours:</strong> Standard office hours as per company policy (Monday to Friday).</li>
+                                        <li><strong>Notice Period:</strong> Either party may terminate this agreement by giving 30 days of written notice.</li>
+                                      </ul>
+                                      <p>Please sign and return a copy of this letter to indicate your acceptance of this offer and the terms outlined above.</p>
+                                      <p>We welcome you to the Navio Labs family and wish you a long and successful career with us.</p>
+                                    </div>
+                                    <div class="signatures">
+                                      <div>
+                                        <p>Sincerely,</p><br/><br/><br/>
+                                        <p>___________________<br/><strong>Authorized Signatory</strong><br/>Navio Labs</p>
+                                      </div>
+                                      <div style="text-align: right;">
+                                        <p>Accepted By:</p><br/><br/><br/>
+                                        <p>___________________<br/><strong>${selectedEmpForLetter.name}</strong></p>
+                                      </div>
+                                    </div>
+                                    <script>setTimeout(()=>{window.print();window.close();},500);<\/script>
+                                  </body>
+                                </html>
+                              `);
                               printWin.document.close();
                             }}
                           >🖨 Print / PDF</button>

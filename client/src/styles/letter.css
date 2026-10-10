@@ -12,6 +12,7 @@
 
 .a4-letter {
   width: 794px !important;
+  min-width: 794px !important;
   min-height: 1123px !important;
   background: #ffffff !important;
   color: #000000 !important;
@@ -21,6 +22,7 @@
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* Watermark styles */
@@ -39,15 +41,8 @@
   width: 600px;
 }
 
-.letter-watermark svg {
-  width: 300px;
-  height: 300px;
-  color: #000;
-  margin-bottom: 20px;
-}
-
 .letter-watermark h1 {
-  font-size: 80px;
+  font-size: 100px;
   font-weight: 900;
   color: #000;
   margin: 0;
@@ -76,12 +71,6 @@
   justify-content: center;
   gap: 15px;
   margin-bottom: 10px;
-}
-
-.letter-logo svg {
-  width: 36px;
-  height: 36px;
-  color: #000;
 }
 
 .letter-logo h2 {
