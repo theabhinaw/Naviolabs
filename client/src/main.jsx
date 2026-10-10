@@ -13,6 +13,7 @@ import './styles/workflow.css';
 import './styles/sections.css';
 import './styles/services.css';
 import './styles/playground.css';
+import './styles/id-card.css';
 import './styles/simulator.css';
 import './styles/calculator.css';
 import './styles/process.css';

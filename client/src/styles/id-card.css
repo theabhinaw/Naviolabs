@@ -1,0 +1,177 @@
+/* ID Card Generator Styles */
+.id-card-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg);
+  border-radius: 12px;
+  border: 1px solid var(--rule);
+  width: 100%;
+}
+
+.id-card-preview {
+  width: 54mm; /* Standard CR80 Width */
+  height: 86mm; /* Standard CR80 Height */
+  background: linear-gradient(135deg, #091326 0%, #060c1c 100%);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6mm 4mm;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
+}
+
+/* Add futuristic glassmorphism elements inside */
+.id-card-bg-shape {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 60mm;
+  height: 60mm;
+  background: radial-gradient(circle, rgba(62,115,255,0.15) 0%, transparent 70%);
+  z-index: 0;
+}
+
+.id-card-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.id-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5mm;
+}
+
+.id-card-header svg {
+  width: 16px;
+  height: 16px;
+  color: #3e73ff;
+}
+
+.id-card-header h2 {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.id-card-photo {
+  width: 32mm;
+  height: 32mm;
+  border-radius: 50%;
+  background: #1a233a;
+  border: 2px solid #3e73ff;
+  box-shadow: 0 0 15px rgba(62, 115, 255, 0.3);
+  object-fit: cover;
+  margin-bottom: 4mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #3e73ff;
+}
+
+.id-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.id-card-role {
+  font-size: 8px;
+  color: #3e73ff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5mm;
+  text-align: center;
+}
+
+.id-card-emp-id {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 8px;
+  letter-spacing: 1px;
+  margin-bottom: auto;
+}
+
+.id-card-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 4mm;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.id-card-qr {
+  width: 12mm;
+  height: 12mm;
+  background: #fff;
+  padding: 2px;
+  border-radius: 2px;
+}
+
+.id-card-details {
+  font-size: 6px;
+  color: #8892b0;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.id-card-domain {
+  font-size: 7px;
+  color: #fff;
+  font-weight: 600;
+}
+
+@media print {
+  /* Hide everything else */
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Make only the ID Card visible */
+  .printable-id-card, .printable-id-card * {
+    visibility: visible;
+  }
+  
+  /* Position it for standard CR80 printing */
+  .printable-id-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  /* Hide specific UI elements that shouldn't be printed */
+  .no-print {
+    display: none !important;
+  }
+}

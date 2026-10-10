@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [adminTab, setAdminTab] = useState('overview');
+  const [selectedEmpForId, setSelectedEmpForId] = useState(null);
   
   const [programs, setPrograms] = useState([
     { id: 1, title: 'Company Testing Program v1', status: 'Active', enrolled: 12 },
@@ -157,8 +158,8 @@ export default function Dashboard() {
             <div style={{ display: 'grid', gap: '2rem' }}>
               
               {/* Admin Tabs Navigation */}
-              <div style={{ display: 'flex', gap: '1rem', borderBottom: '2px solid var(--rule)', paddingBottom: '1rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-                {['overview', 'users', 'programs', 'settings'].map(tab => (
+              <div style={{ display: 'flex', gap: '1rem', borderBottom: '2px solid var(--rule)', paddingBottom: '1rem', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }} className="no-print">
+                {['overview', 'users', 'id-cards', 'programs', 'settings'].map(tab => (
                   <button 
                     key={tab} 
                     onClick={() => setAdminTab(tab)}
@@ -321,6 +322,88 @@ export default function Dashboard() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              )}
+
+              {/* ID CARDS TAB */}
+              {adminTab === 'id-cards' && (
+                <div className="form no-print" style={{ padding: '2.5rem', borderTop: '4px solid var(--cobalt)' }}>
+                  <h3 style={{ fontSize: '1.8rem', marginBottom: '1.5rem' }}>ID Card Generator</h3>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem' }}>
+                    <div>
+                      <p style={{ color: 'var(--ink-2)', marginBottom: '1rem' }}>Select an employee to generate their official ID card.</p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '400px', overflowY: 'auto' }}>
+                        {users.filter(u => u.role === 'employee' || u.role === 'admin').map(emp => (
+                          <button 
+                            key={emp._id}
+                            onClick={() => setSelectedEmpForId(emp)}
+                            style={{
+                              padding: '1rem',
+                              textAlign: 'left',
+                              background: selectedEmpForId?._id === emp._id ? 'var(--soft)' : 'var(--surface)',
+                              border: `2px solid ${selectedEmpForId?._id === emp._id ? 'var(--cobalt)' : 'var(--rule)'}`,
+                              borderRadius: '12px',
+                              cursor: 'pointer',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }}
+                          >
+                            <div>
+                              <strong style={{ display: 'block', fontSize: '1.1rem', color: 'var(--ink)' }}>{emp.name}</strong>
+                              <span style={{ fontSize: '0.85rem', color: 'var(--ink-2)' }}>{emp.email}</span>
+                            </div>
+                            <span style={{ fontSize: '0.8rem', padding: '0.2rem 0.5rem', background: 'var(--rule)', color: 'var(--ink)', borderRadius: '6px' }}>{emp.role}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {selectedEmpForId ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <div className="id-card-wrapper printable-id-card">
+                          <div className="id-card-preview">
+                            <div className="id-card-bg-shape"></div>
+                            <div className="id-card-content">
+                              <div className="id-card-header">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2L21 5.9a2.12 2.12 0 0 0-3-3L4.5 16.5z"/></svg>
+                                <h2>Navio Labs</h2>
+                              </div>
+                              <div className="id-card-photo">
+                                {selectedEmpForId.name.substring(0,2).toUpperCase()}
+                              </div>
+                              <h3 className="id-card-name">{selectedEmpForId.name}</h3>
+                              <p className="id-card-role">{selectedEmpForId.role === 'admin' ? 'Executive Admin' : 'Full Stack Developer'}</p>
+                              
+                              <div className="id-card-emp-id">
+                                ID: NL{selectedEmpForId._id.substring(0,6).toUpperCase()}
+                              </div>
+                              
+                              <div className="id-card-footer">
+                                <div className="id-card-qr">
+                                  <svg width="100%" height="100%" viewBox="0 0 24 24" fill="#000">
+                                    <path d="M3 3h8v8H3zM5 5v4h4V5zM13 3h8v8h-8zM15 5v4h4V5zM3 13h8v8H3zM5 15v4h4v-4zM18 13h3v3h-3zM13 13h3v3h-3zM13 18h3v3h-3zM18 18h3v3h-3z"/>
+                                  </svg>
+                                </div>
+                                <div className="id-card-details">
+                                  EMP: NL{selectedEmpForId._id.substring(0,6).toUpperCase()} <br/>
+                                  Expires: DEC 2028 <br/>
+                                  <span className="id-card-domain">naviolabs.com</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button onClick={() => window.print()} className="btn btn-primary no-print" style={{ marginTop: '2rem', width: '100%', maxWidth: '250px' }}>
+                          Print ID Card
+                        </button>
+                      </div>
+                    ) : (
+                      <div style={{ display: 'grid', placeItems: 'center', background: 'var(--soft)', borderRadius: '12px', border: '2px dashed var(--rule-strong)', minHeight: '300px' }}>
+                        <p style={{ color: 'var(--ink-2)' }}>Select an employee to preview ID Card.</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
